@@ -15,7 +15,7 @@ function App() {
 
   return (
     <>
-      <div class="flex-col mx-auto max-w-[600px] justify-center">
+      <div class="flex-col mx-auto max-w-[400px] justify-center">
         <h1>Blog!</h1>
         <h2>Posts</h2>
         <PostForm />
@@ -32,6 +32,22 @@ function App() {
                       <h3>{post.title}</h3>
                       <p>{post.content}</p>
                       <CommentForm postId={post.id} />
+                      {/* COMMENTS */}
+                      <div class="">
+                        {post.comments && (
+                          <>
+                            <For each={post.comments}>
+                              {(c) => (
+                                <>
+                                  <div class="flex justify-between my-12">
+                                    <p>{c.content}</p> <span>{"<<"}</span>
+                                  </div>
+                                </>
+                              )}
+                            </For>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </>
                 )}

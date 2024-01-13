@@ -57,7 +57,7 @@ export function CommentForm({ postId }: { postId: string }) {
   return (
     <>
       <div>
-        <h4>Create a new comment</h4>
+        <h4 class="text-xs italic">Create a new comment</h4>
         {/* COMMENT FORM*/}
         <Comment.Form
           onSubmit={handleCommentSubmit}
