@@ -1,10 +1,9 @@
 import { createResource, For } from "solid-js";
 import "./App.css";
-import { CommentForm, PostForm } from "./forms";
+import { CommentForm, PostForm, URL_POSTS } from "./forms";
 // https://github.com/fabian-hiller/modular-forms/issues/157
 async function fetchPosts() {
-  const url = `http://localhost:4002/posts`;
-  const resp = await fetch(url, { method: "GET" });
+  const resp = await fetch(URL_POSTS, { method: "GET" });
   const res = await resp.json();
 
   return res;

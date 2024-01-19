@@ -1,4 +1,8 @@
 import { createForm, SubmitHandler } from "@modular-forms/solid";
+import { onMount } from "solid-js";
+export const URL = `http://posts.com`;
+export const URL_POSTS = `${URL}/posts`;
+export const getCommentsUrl = (postId: string) => `${URL_POSTS}/${postId}`;
 
 type PostFormType = {
   title: string;
@@ -8,11 +12,13 @@ type CommentFormType = {
   content: string;
 };
 export function PostForm() {
-  const URL_POSTS = `http://localhost:4000`;
-  const [postFormStore, Post] = createForm<PostFormType>();
-
+  const [vals, Post] = createForm<PostFormType>();
+  onMount(() => {
+    vals.element?.click();
+  });
   const handlePostSubmit: SubmitHandler<PostFormType> = async (values) => {
-    await fetch(`${URL_POSTS}/posts`, {
+    console.log(values);
+    await fetch(`${URL_POSTS}`, {
       method: "POST",
       body: JSON.stringify({ content: values.content, title: values.title }),
       headers: {
@@ -27,12 +33,18 @@ export function PostForm() {
       <Post.Form onSubmit={handlePostSubmit} class="flex-col gap-2 my-8">
         <div class="my-2">
           <Post.Field name="title">
-            {(field, props) => <input {...props} type="text" />}
+            {(field, props) => {
+              console.log({ field, props });
+              return <input {...props} type="text" />;
+            }}
           </Post.Field>
         </div>
         <div class="my-2">
           <Post.Field name="content">
-            {(field, props) => <input {...props} type="text" />}
+            {(field, props) => {
+              console.log({ field, props });
+              return <input {...props} type="text" />;
+            }}
           </Post.Field>
         </div>
         <button>Submit</button>
@@ -41,12 +53,13 @@ export function PostForm() {
   );
 }
 export function CommentForm({ postId }: { postId: string }) {
-  const URL_COMMENTS = `http://localhost:4001`;
-  const [commentFormStore, Comment] = createForm<CommentFormType>();
+  const URL_COMMENTS = getCommentsUrl(postId);
+  const [, Comment] = createForm<CommentFormType>();
   const handleCommentSubmit: SubmitHandler<CommentFormType> = async (
     values,
   ) => {
-    await fetch(`${URL_COMMENTS}/posts/${postId}/comments`, {
+    console.log(values);
+    await fetch(URL_COMMENTS, {
       method: "POST",
       body: JSON.stringify({ content: values.content }),
       headers: {
@@ -65,7 +78,10 @@ export function CommentForm({ postId }: { postId: string }) {
         >
           <div class="my-2">
             <Comment.Field name="content">
-              {(field, props) => <input {...props} type="text" />}
+              {(field, props) => {
+                console.log({ field, props });
+                return <input {...props} type="text" />;
+              }}
             </Comment.Field>
           </div>
           <button class="">Submit</button>
