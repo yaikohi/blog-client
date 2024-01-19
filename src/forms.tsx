@@ -29,7 +29,6 @@ export function PostForm() {
     vals.element?.click();
   });
   const handlePostSubmit: SubmitHandler<PostFormType> = async (values) => {
-    console.log(values);
     const url = getPostURL();
     // const serverURL = `${URL_POSTS}/create`;
 
@@ -68,11 +67,15 @@ export function PostForm() {
   );
 }
 export function CommentForm({ postId }: { postId: string }) {
-  const url = getCommentsURL(postId);
-  const [, Comment] = createForm<CommentFormType>();
+  const [vals, Comment] = createForm<CommentFormType>();
+
+  onMount(() => {
+    vals.element?.click();
+  });
   const handleCommentSubmit: SubmitHandler<CommentFormType> = async (
     values,
   ) => {
+    const url = getCommentsURL(postId);
     console.log(values);
     await fetch(url, {
       method: "POST",
@@ -85,7 +88,7 @@ export function CommentForm({ postId }: { postId: string }) {
   return (
     <>
       <div>
-        <h4 class="text-xs italic">Create a new comment</h4>
+        <h4 class="text-zinc-700 text-xs italic">Create a new comment</h4>
         {/* COMMENT FORM*/}
         <Comment.Form
           onSubmit={handleCommentSubmit}
