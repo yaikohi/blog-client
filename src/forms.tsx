@@ -18,7 +18,7 @@ export function PostForm() {
   });
   const handlePostSubmit: SubmitHandler<PostFormType> = async (values) => {
     console.log(values);
-    await fetch(`${URL_POSTS}`, {
+    await fetch(`${URL_POSTS}/create`, {
       method: "POST",
       body: JSON.stringify({ content: values.content, title: values.title }),
       headers: {
