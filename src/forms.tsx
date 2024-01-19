@@ -1,13 +1,21 @@
 import { createForm, SubmitHandler } from "@modular-forms/solid";
 import { onMount } from "solid-js";
-export const URL = `http://posts.com`;
-export const URL_POSTS = `${URL}/posts`;
 
-export const getCommentsURL = (postId: string) => `${URL_POSTS}/${postId}`;
-
-export const getLocalURL = (PORT: string, OPTS: string) => {
-  return (`http://localhost:${PORT}${OPTS}`);
+export const getCommentsURL = (postId: string) => {
+  // if (env.NODE_ENV === "development") {
+  // return `http://localhost:4000/posts/${postId}/comments`;
+  // } else {
+  return `http://posts.com/posts/${postId}/comments`;
+  // }
 };
+export const getPostURL = () => {
+  // if (env.NODE_ENV === "development") {
+  // return `http://localhost:4000/posts/create`;
+  // } else {
+  return `http://posts.com/posts/create`;
+  // }
+};
+
 type PostFormType = {
   title: string;
   content: string;
@@ -22,11 +30,10 @@ export function PostForm() {
   });
   const handlePostSubmit: SubmitHandler<PostFormType> = async (values) => {
     console.log(values);
-    const localURL = getLocalURL("4000", "/posts/create");
-    console.log(localURL);
+    const url = getPostURL();
     // const serverURL = `${URL_POSTS}/create`;
 
-    await fetch(localURL, {
+    await fetch(url, {
       method: "POST",
       body: JSON.stringify({ content: values.content, title: values.title }),
       headers: {
@@ -61,14 +68,13 @@ export function PostForm() {
   );
 }
 export function CommentForm({ postId }: { postId: string }) {
-  const URL_COMMENTS = getCommentsURL(postId);
-  const localURL = getLocalURL("4001", `/posts/${postId}/comments`);
+  const url = getCommentsURL(postId);
   const [, Comment] = createForm<CommentFormType>();
   const handleCommentSubmit: SubmitHandler<CommentFormType> = async (
     values,
   ) => {
     console.log(values);
-    await fetch(localURL, {
+    await fetch(url, {
       method: "POST",
       body: JSON.stringify({ content: values.content }),
       headers: {
