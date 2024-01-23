@@ -2,6 +2,7 @@ import { createResource, For } from "solid-js";
 import "./App.css";
 import { CommentForm, PostForm } from "./forms";
 // https://github.com/fabian-hiller/modular-forms/issues/157
+
 async function fetchPosts() {
   // const resp = await fetch(`http://localhost:4002/posts`, { method: "GET" });
   const resp = await fetch(`http://posts.com/posts`, { method: "GET" });

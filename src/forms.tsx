@@ -3,7 +3,7 @@ import { onMount } from "solid-js";
 
 export const getCommentsURL = (postId: string) => {
   // if (env.NODE_ENV === "development") {
-  // return `http://localhost:4000/posts/${postId}/comments`;
+  // return `http://localhost:4001/posts/${postId}/comments`;
   // } else {
   return `http://posts.com/posts/${postId}/comments`;
   // }
@@ -30,11 +30,12 @@ export function PostForm() {
   });
   const handlePostSubmit: SubmitHandler<PostFormType> = async (values) => {
     const url = getPostURL();
+    console.log({ "sending-post-to": url });
     // const serverURL = `${URL_POSTS}/create`;
 
     await fetch(url, {
       method: "POST",
-      body: JSON.stringify({ content: values.content, title: values.title }),
+      body: JSON.stringify({ title: values.title, content: values.content }),
       headers: {
         "Content-Type": "application/json",
       },
